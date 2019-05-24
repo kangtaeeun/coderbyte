@@ -69,13 +69,10 @@ Hard challenges are worth 15 points and you are not timed for them.
 
 */
 exports.main = function (event, context, callback) { return __awaiter(_this, void 0, void 0, function () {
+    var maximalSquareResult;
     return __generator(this, function (_a) {
-        /*
-        const longestOne = longestWord(event);
-        console.log(longestOne);
-        */
-        // const maximalSquareResult = maximalSquareMain(event);
-        console.log(exports.maximalSquareValueByStartPoint(event, 1, 2));
+        maximalSquareResult = exports.maximalSquareMain(event);
+        console.log(maximalSquareResult);
         return [2 /*return*/, callback(null, 'success')];
     });
 }); };
@@ -103,24 +100,30 @@ exports.calc = function (squareArray, startX, startY, len) {
     }
     return result;
 };
-exports.maximalSquareMain = function (squareArray) { return __awaiter(_this, void 0, void 0, function () {
-    var row, col, tMaximalValuesArray, i, j;
-    return __generator(this, function (_a) {
-        row = squareArray.length;
-        col = squareArray[0].length;
-        tMaximalValuesArray = new Array();
-        for (i = 0; i < row; i++) {
-            for (j = 0; j < col; j++) {
-                if (squareArray[i][j] > 0) {
-                    tMaximalValuesArray.push(exports.maximalSquareValueByStartPoint(squareArray, i, j));
-                    // console.log(maximalSquareValueByStartPoint(squareArray,i,j));
-                }
+exports.maximalSquareMain = function (squareArray) {
+    var row = squareArray.length;
+    var col = squareArray[0].length;
+    var tMaximalValuesArray = new Array();
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < col; j++) {
+            if (squareArray[i][j] > 0) {
+                tMaximalValuesArray.push(exports.maximalSquareValueByStartPoint(squareArray, i, j));
+                // console.log(maximalSquareValueByStartPoint(squareArray,i,j));
             }
         }
-        console.log(tMaximalValuesArray);
-        return [2 /*return*/];
-    });
-}); };
+    }
+    //console.log(tMaximalValuesArray);
+    return exports.extractMaximalValue(tMaximalValuesArray);
+};
+exports.extractMaximalValue = function (target) {
+    var idx = target[0];
+    for (var i = 0; i < target.length; i++) {
+        if (target[i] > idx) {
+            idx = target[i];
+        }
+    }
+    return idx;
+};
 exports.maximalSquareValueByStartPoint = function (squareArray, startX, startY) {
     var endX = squareArray.length;
     var endY = squareArray[0].length;
@@ -128,12 +131,10 @@ exports.maximalSquareValueByStartPoint = function (squareArray, startX, startY) 
     var maxlenY = endY - startY;
     var maxLen = maxlenX > maxlenY ? maxlenY : maxlenX;
     var retVal = squareArray[startX][startY]; //최초값
-    for (var i = maxLen; i > startY; i--) {
+    for (var i = maxLen; i > 0; i--) {
         var asumptionVal = i * i;
         var resultVal = exports.calc(squareArray, startX, startY, i);
-        console.log('assumption: ' + asumptionVal + ' resultVal: ' + resultVal);
         if (asumptionVal == resultVal) {
-            console.log('here? ');
             retVal = resultVal;
             break; // 큰 정사각형부터 체크하기 때문에 값을 만나면 더이상의 값을 체크하는것은 무의미함.
         }
@@ -150,8 +151,8 @@ exports.test = function () { return __awaiter(_this, void 0, void 0, function ()
                     console.log("break!!!!!!!! ");
                     break;
                 }
-            } //end for 
-        } // end for 
+            }
+        }
         console.log("####### end test ");
         return [2 /*return*/];
     });

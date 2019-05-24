@@ -39,8 +39,9 @@ export const main = async (event:any, context: Context, callback: Callback) => {
   const longestOne = longestWord(event);
   console.log(longestOne);
   */
-  // const maximalSquareResult = maximalSquareMain(event);
-  console.log(maximalSquareValueByStartPoint(event, 1,2));
+  
+  const maximalSquareResult = maximalSquareMain(event);
+  console.log(maximalSquareResult);
   return callback(null, 'success');
 };
 
@@ -56,10 +57,6 @@ export const longestWord = async (sentence:string) => {
   return sen;
 };
 
-
-
-
-
 export const calc = (squareArray:Array<Array<number>>, startX:number, startY: number, len:number):number => {
   let result = 0;
   for(let i=startX;i<len+startX;i++){
@@ -71,7 +68,7 @@ export const calc = (squareArray:Array<Array<number>>, startX:number, startY: nu
   return result;
 };
 
-export const maximalSquareMain = async (squareArray:Array<Array<number>>) => {
+export const maximalSquareMain = (squareArray:Array<Array<number>>) => {
   const row = squareArray.length;
   const col = squareArray[0].length;
   
@@ -85,7 +82,18 @@ export const maximalSquareMain = async (squareArray:Array<Array<number>>) => {
     }
   }
 
-  console.log(tMaximalValuesArray);
+  //console.log(tMaximalValuesArray);
+  return extractMaximalValue(tMaximalValuesArray);
+};
+
+export const extractMaximalValue = (target: Array<number>) => {
+  let idx = target[0];
+  for(let i=0;i<target.length;i++){
+    if(target[i]>idx){
+      idx = target[i];
+    }
+  }
+  return idx;
 };
 
 export const maximalSquareValueByStartPoint = (squareArray:Array<Array<number>>, startX:number, startY:number):number => {
@@ -98,40 +106,18 @@ export const maximalSquareValueByStartPoint = (squareArray:Array<Array<number>>,
   let maxLen = maxlenX > maxlenY ? maxlenY : maxlenX;
   let retVal = squareArray[startX][startY]; //최초값
 
-  //여기부터 시작하자 .. 
-  for(let i=maxLen;i>startY;i--){
+
+  for(let i=maxLen;i>0;i--){
     let asumptionVal = i*i;
     let resultVal = calc(squareArray,startX,startY,i);
-    console.log('assumption: ' + asumptionVal + ' resultVal: ' + resultVal);
-
+    
     if(asumptionVal == resultVal){
-      console.log('here? ')
       retVal = resultVal;
       break; // 큰 정사각형부터 체크하기 때문에 값을 만나면 더이상의 값을 체크하는것은 무의미함.
     }
   }
   return retVal;
 }
-
-
-
-
-
-
-export const test = async () => {
-  for(let i=0;i<10;i++){
-    for(let j=0;j<10;j++){
-      console.log(">>>> " + i+", "+ j);
-      if(i ==5 && j==5){
-        console.log("break!!!!!!!! ");
-        break;
-      }      
-    }//end for 
-  }// end for 
-  console.log("####### end test ");
-}
-
-
 
 
 

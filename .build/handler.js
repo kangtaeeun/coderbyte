@@ -67,15 +67,64 @@ For the input above, you can see the bolded 1's create the largest square submat
 You can assume the input will not be empty.
 Hard challenges are worth 15 points and you are not timed for them.
 
+정렬 알고리즘 시간 복잡도 보기 Challenge = 5/27
+소팅 알고리즘 성능 측정 ?
+- 측정 툴
+- Insertion, selection, bubble , Quick , Merge, shell, change
+
+-input range: 10단위로
+
 */
 exports.main = function (event, context, callback) { return __awaiter(_this, void 0, void 0, function () {
-    var maximalSquareResult;
     return __generator(this, function (_a) {
-        maximalSquareResult = exports.maximalSquareMain(event);
-        console.log(maximalSquareResult);
+        /*
+        const longestOne = longestWord(event);
+        const maximalSquareResult = maximalSquareMain(event);
+        console.log( recursiveTest(5));
+        */
+        exports.insertSort(event);
+        exports.selectionSort(event);
         return [2 /*return*/, callback(null, 'success')];
     });
 }); };
+exports.insertSort = function (arr) {
+    for (var i = 1; i < arr.length; i++) {
+        var tmpVal = void 0;
+        for (var k = i; k > 0; k--) {
+            if (arr[k] < arr[k - 1]) {
+                tmpVal = arr[k];
+                arr[k] = arr[k - 1];
+                arr[k - 1] = tmpVal;
+            }
+        }
+    }
+    console.log('insertSort Result ' + arr.join(', '));
+};
+exports.selectionSort = function (arr) {
+    // 최소값 탐색 후 i 위치와 바꾸기 
+    for (var i = 0; i < arr.length; i++) {
+        var mValIdx = i;
+        var mVal = arr[i];
+        var tmpVal = arr[i];
+        for (var k = i; k < arr.length; k++) {
+            if (mVal > arr[k]) {
+                mVal = arr[k];
+                mValIdx = k;
+            }
+        }
+        arr[i] = arr[mValIdx];
+        arr[mValIdx] = tmpVal;
+    }
+    console.log('selectionSort Result: ', arr.join(', '));
+};
+exports.recursiveTest = function (input) {
+    if (input == 1) {
+        return 1;
+    }
+    else {
+        return (input * 5 - 5) + exports.recursiveTest(input - 1);
+    }
+};
 exports.longestWord = function (sentence) { return __awaiter(_this, void 0, void 0, function () {
     var sen, longestIdx;
     return __generator(this, function (_a) {
@@ -141,19 +190,3 @@ exports.maximalSquareValueByStartPoint = function (squareArray, startX, startY) 
     }
     return retVal;
 };
-exports.test = function () { return __awaiter(_this, void 0, void 0, function () {
-    var i, j;
-    return __generator(this, function (_a) {
-        for (i = 0; i < 10; i++) {
-            for (j = 0; j < 10; j++) {
-                console.log(">>>> " + i + ", " + j);
-                if (i == 5 && j == 5) {
-                    console.log("break!!!!!!!! ");
-                    break;
-                }
-            }
-        }
-        console.log("####### end test ");
-        return [2 /*return*/];
-    });
-}); };

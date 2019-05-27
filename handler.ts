@@ -1,4 +1,5 @@
 import { Handler, Context, Callback } from 'aws-lambda';
+import { doesNotReject } from 'assert';
 
 /*
 #### Challenge - 5/21
@@ -32,17 +33,73 @@ For the input above, you can see the bolded 1's create the largest square submat
 You can assume the input will not be empty. 
 Hard challenges are worth 15 points and you are not timed for them.
 
+정렬 알고리즘 시간 복잡도 보기 Challenge = 5/27  
+소팅 알고리즘 성능 측정 ? 
+- 측정 툴 
+- Insertion, selection, bubble , Quick , Merge, shell, change 
+
+-input range: 10단위로
+
 */
 
 export const main = async (event:any, context: Context, callback: Callback) => {
   /*
   const longestOne = longestWord(event);
-  console.log(longestOne);
+  const maximalSquareResult = maximalSquareMain(event);
+  console.log( recursiveTest(5));
   */
   
-  const maximalSquareResult = maximalSquareMain(event);
-  console.log(maximalSquareResult);
+  insertSort(event);
+  selectionSort(event);
+  
   return callback(null, 'success');
+};
+
+
+export const insertSort = (arr:Array<number>) => {
+  for(let i=1;i<arr.length;i++){
+    
+    let tmpVal ;
+    for(let k=i;k>0;k--){
+      if(arr[k] < arr[k-1]){
+        tmpVal = arr[k];
+        arr[k] = arr[k-1];
+        arr[k-1] = tmpVal;
+      }
+    }
+
+  }
+
+  console.log('insertSort Result ' + arr.join(', '));
+};
+
+export const selectionSort = (arr:Array<number>) => {
+ // 최소값 탐색 후 i 위치와 바꾸기 
+  for(let i=0;i<arr.length;i++){
+    let mValIdx = i;
+    let mVal = arr[i];
+    let tmpVal = arr[i];
+    for(let k=i;k<arr.length;k++){
+      if(mVal > arr[k]){
+        mVal = arr[k];
+        mValIdx = k;
+      }
+    }
+    arr[i] = arr[mValIdx];
+    arr[mValIdx] = tmpVal;
+  }
+  console.log('selectionSort Result: ', arr.join(', '));
+
+};
+
+
+
+export const recursiveTest = (input: number):number => {
+   if(input == 1){
+     return 1;
+   } else {
+     return (input * 5 - 5) + recursiveTest(input-1);
+   }
 };
 
 export const longestWord = async (sentence:string) => {
